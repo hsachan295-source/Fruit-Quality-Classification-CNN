@@ -2,11 +2,15 @@
 
 SavorShield is an interactive deep learning web application that uses a Keras Convolutional Neural Network (CNN) to instantly classify fruits as **Fresh** or **Rotten**. It features a modern Flask-based Python backend and a premium glassmorphic dark-mode web user interface styled with Vanilla CSS and high-fidelity Javascript micro-interactions.
 
+### 🚀 **Live Demo on Hugging Face Spaces**: 
+👉 **[SavorShield Live Classifier](https://huggingface.co/spaces/Harsh0809/fruit-quality-classification-cnn)**
+
 ---
 
 ## 🌟 Key Features
 
 * **Instant CNN Inference**: Pre-loads the 134MB Keras model (`fruits_fresh_rotten_model.keras` or `fruits_fresh_rotten_model.h5`) at server startup to deliver quick prediction times.
+* **Compatibility Patching**: Features a custom runtime patch to resolve Keras 2/3 serialization mismatches (`quantization_config` arguments) dynamically at startup, guaranteeing stable loading.
 * **Drag-and-Drop Dropzone**: Implemented with responsive drag events, instant client-side preview, and verification checks.
 * **Dynamic Visual Themes**: The interface adapts to predictions:
   * **Vibrant Emerald theme** for **Fresh** fruits.
@@ -23,9 +27,10 @@ SavorShield is an interactive deep learning web application that uses a Keras Co
 d:\Data science course\11-Deep learning\6-food_classification\
 ├── fruits_fresh_rotten_model.keras    # Pre-trained Keras Model file
 ├── fruits_fresh_rotten_model.h5       # Fallback Keras Model file
-├── app.py                             # Flask Web Server & Inference Pipeline
-├── requirements.txt                   # Environment Dependencies
+├── app.py                             # Flask Web Server & Inference Pipeline (with Keras 2/3 compatibility patches)
+├── requirements.txt                   # Environment Dependencies (optimized for tensorflow-cpu)
 ├── run.bat                            # Windows Environment Setup & Launcher
+├── Dockerfile                         # Deployment configuration for Hugging Face Spaces
 ├── README.md                          # Project Documentation
 ├── templates/
 │   └── index.html                     # Semantic Web Structure
@@ -51,6 +56,16 @@ d:\Data science course\11-Deep learning\6-food_classification\
 
 ---
 
+## ☁️ Hugging Face Spaces Docker Deployment
+
+SavorShield is fully Dockerized and deployed under Hugging Face Spaces utilizing:
+- **`python:3.10-slim`** base image to keep image overhead minimal.
+- Standard **Port `7860`** for proper routing inside Space containers.
+- **`tensorflow-cpu>=2.16.1`** to leverage Keras 3 while remaining lightweight and avoiding out-of-memory errors.
+- **Git LFS (Large File Storage)** tracking rules configured to handle Keras model weight files larger than 10MB.
+
+---
+
 ## 🚀 Installation & Local Launch
 
 ### Option A: Double-Click Launcher (Recommended for Windows)
@@ -70,4 +85,4 @@ python app.py
 
 ### Accessing the UI
 Open your favorite web browser and go to:
-👉 **[http://localhost:5000](http://localhost:5000)**
+👉 **[http://localhost:5000](http://localhost:5000)** (Locally) or **[Hugging Face Live Demo](https://huggingface.co/spaces/Harsh0809/fruit-quality-classification-cnn)** (Cloud)

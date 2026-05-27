@@ -4,6 +4,36 @@ import numpy as np
 from PIL import Image
 from flask import Flask, request, jsonify, render_template
 
+# ==========================================================================
+# BULLETPROOF KERAS COMPATIBILITY PATCH FOR DENSE LAYERS DESERIALIZATION
+# (Solves 'Unrecognized keyword arguments passed to Dense: quantization_config' mismatch)
+# ==========================================================================
+try:
+    import keras
+    if hasattr(keras.layers, 'Dense'):
+        original_init = keras.layers.Dense.__init__
+        def patched_init(self, *args, **kwargs):
+            kwargs.pop('quantization_config', None)
+            original_init(self, *args, **kwargs)
+        keras.layers.Dense.__init__ = patched_init
+        print("Successfully patched standalone keras.layers.Dense for serialization compatibility!")
+except Exception as e:
+    print(f"Standalone Keras patch bypassed: {e}")
+
+try:
+    import tensorflow as tf
+    if hasattr(tf.keras.layers, 'Dense'):
+        original_tf_init = tf.keras.layers.Dense.__init__
+        def patched_tf_init(self, *args, **kwargs):
+            kwargs.pop('quantization_config', None)
+            original_tf_init(self, *args, **kwargs)
+        tf.keras.layers.Dense.__init__ = patched_tf_init
+        print("Successfully patched tf.keras.layers.Dense for serialization compatibility!")
+except Exception as e:
+    print(f"TensorFlow Keras patch bypassed: {e}")
+# ==========================================================================
+
+
 # Initialize Flask Application
 app = Flask(__name__)
 
@@ -131,4 +161,4 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Warning: Could not pre-load model on startup: {e}")
         
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=7860, debug=False)
