@@ -1,0 +1,15 @@
+# Python temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Large model files (GitHub has a 100MB limit for standard files)
+*.keras
+*.h5
+
+# OS temporary files
+.DS_Store
+Thumbs.db
