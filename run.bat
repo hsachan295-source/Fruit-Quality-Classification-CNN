@@ -15,7 +15,7 @@ echo.
 echo ==========================================================
 echo                   STARTING FLASK SERVER
 echo ==========================================================
-echo Server launching on http://localhost:5000
+echo Server launching on http://localhost:7860
 echo Keep this window open while using SavorShield!
 echo ==========================================================
 echo.
